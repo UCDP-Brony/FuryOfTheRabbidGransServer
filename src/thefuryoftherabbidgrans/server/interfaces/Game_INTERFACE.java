@@ -5,7 +5,6 @@
  */
 package thefuryoftherabbidgrans.server.interfaces;
 
-import thefuryoftherabbidgrans.utils.GameInitialiserWrapper;
 /**
  *
  * @author TheDoctor
