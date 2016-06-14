@@ -33,7 +33,6 @@ public class PlayerReception implements Runnable {
         while(connected){
             try{
                 String message = in.readLine();
-                System.out.println("ici : "+message);
                 player.getMessageFromClient(message);
             } catch (IOException ex) {
                 connected = false;
