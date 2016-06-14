@@ -36,7 +36,6 @@ public class PlayerReception implements Runnable {
                 player.getMessageFromClient(message);
             } catch (IOException ex) {
                 connected = false;
-                player.getMessageFromClient("disconnected");
             }
         }
     }    
