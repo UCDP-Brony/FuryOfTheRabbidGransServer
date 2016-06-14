@@ -60,13 +60,18 @@ public class Player implements Player_INTERFACE {
 
     @Override
     public void getMessageFromClient(String message) {
-        System.out.println("got message from "+name+" : "+message);
-        sendMessageToClient(message);
+        this.game.getMessageFromPlayer(id, message);
     }
 
     @Override
     public void sendMessageToClient(String message) {
         out.println(message);
         out.flush();
+    }
+
+    @Override
+    public void endConnection() {
+        out.close();
+        game.removePlayer(id);
     }
 }

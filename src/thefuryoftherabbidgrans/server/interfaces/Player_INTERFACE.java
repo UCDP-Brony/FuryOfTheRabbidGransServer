@@ -47,5 +47,7 @@ public interface Player_INTERFACE{
      * sends a message to the client.
      * @param message the message.
      */
-    public void sendMessageToClient(String message);
+    public void sendMessageToClient(String message);    
+
+    public void endConnection();
 }

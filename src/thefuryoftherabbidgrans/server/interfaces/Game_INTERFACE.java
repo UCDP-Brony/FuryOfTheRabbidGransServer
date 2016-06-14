@@ -38,5 +38,18 @@ public interface Game_INTERFACE{
      * get how many players are currently registered in the game.
      * @return the current number of players (0, 1 or 2).
      */
-    public int getNbPlayers();
+    public int getNbPlayers();    
+
+    /**
+     * gets a message from the player id.
+     * @param id the id of the player.
+     * @param message the message.
+     */
+    public void getMessageFromPlayer(int id, String message);
+
+    /**
+     * removes a player from the game.
+     * @param id the id of the player to remove.
+     */
+    public void removePlayer(int id);
 }

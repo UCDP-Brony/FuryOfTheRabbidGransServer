@@ -18,7 +18,7 @@ public class FuryGransGame implements Game_INTERFACE{
     private final Grid grid;
     private boolean isRunning, isFinished;
     private int nbTurns, nbCurrentPlayers;
-    private String identifier;
+    private final String identifier;
 
     public FuryGransGame(String identifier) {
         this.identifier = identifier;
@@ -92,6 +92,23 @@ public class FuryGransGame implements Game_INTERFACE{
     @Override
     public int getNbPlayers() {
         return this.nbCurrentPlayers;
+    }
+
+    @Override
+    public void getMessageFromPlayer(int id, String message) {
+        if(message.equals("quit")|| message.equals("exit")){
+            System.out.println(players[id].getName()+" disconnected.");
+            players[(id+1)%2].sendMessageToClient(players[id].getName()+" disconnected.");
+            players[id].endConnection();
+        } else {
+            players[id].sendMessageToClient(message);
+        }
+    }
+
+    @Override
+    public void removePlayer(int id) {
+        players[id] = null;
+        nbCurrentPlayers--;
     }
 
     
