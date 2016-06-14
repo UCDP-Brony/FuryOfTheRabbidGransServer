@@ -5,7 +5,15 @@
  */
 package thefuryoftherabbidgrans.server.implementations;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import thefuryoftherabbidgrans.server.core.PlayerReception;
+import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 
 /**
@@ -13,13 +21,17 @@ import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
  * @author TheDoctor
  */
 public class Player implements Player_INTERFACE {
-    private final Socket socket;
     private String name;
     private int id;
+    private Game_INTERFACE game;
+    private PlayerReception reception;
+    private PrintWriter out;
+    private final BufferedReader in;
 
     
-    public Player(Socket socket){
-        this.socket = socket;
+    public Player(BufferedReader in, PrintWriter out){
+        this.in = in;
+        this.out = out;
     }
     
     @Override
@@ -38,9 +50,23 @@ public class Player implements Player_INTERFACE {
     }
 
     @Override
-    public void setId(int id) {
+    public void init(int id, Game_INTERFACE game) {
         this.id = id;
+        this.game = game;
+        reception = new PlayerReception(this, in);
+        Thread r = new Thread(reception);
+        r.start();
     }
 
-    
+    @Override
+    public void getMessageFromClient(String message) {
+        System.out.println("got message from "+name+" : "+message);
+        sendMessageToClient(message);
+    }
+
+    @Override
+    public void sendMessageToClient(String message) {
+        out.println(message);
+        out.flush();
+    }
 }

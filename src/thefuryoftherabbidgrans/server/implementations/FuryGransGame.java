@@ -17,10 +17,11 @@ public class FuryGransGame implements Game_INTERFACE{
     private final Player_INTERFACE[] players;
     private final Grid grid;
     private boolean isRunning, isFinished;
-    private int nbTurns;
-    private int nbCurrentPlayers;
+    private int nbTurns, nbCurrentPlayers;
+    private String identifier;
 
-    public FuryGransGame() {
+    public FuryGransGame(String identifier) {
+        this.identifier = identifier;
         this.players = new Player[2];
         this.players[0] = null;
         this.players[1] = null;
@@ -75,14 +76,16 @@ public class FuryGransGame implements Game_INTERFACE{
     public boolean addPlayer(Player_INTERFACE player) {
         if (this.players[0] == null) {
             this.players[0] = player;
-            player.setId(0);
+            player.init(0, this);
         } else if (this.players[1] == null){
             this.players[1] = player;
-            player.setId(1);
+            player.init(1, this);
+            players[0].sendMessageToClient(player.getName()+" joined the room.");
         } else {
             return false;
         }
         this.nbCurrentPlayers++;
+        player.sendMessageToClient("You joined the room "+identifier+". There are "+nbCurrentPlayers+" players in the room.");            
         return true;
     }
 

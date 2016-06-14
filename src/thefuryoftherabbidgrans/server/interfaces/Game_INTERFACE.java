@@ -33,8 +33,7 @@ public interface Game_INTERFACE{
      * @return true if there is still room for a player, false otherwise.
      */
     public boolean canAddPlayer();
-    
-    
+        
     /**
      * get how many players are currently registered in the game.
      * @return the current number of players (0, 1 or 2).

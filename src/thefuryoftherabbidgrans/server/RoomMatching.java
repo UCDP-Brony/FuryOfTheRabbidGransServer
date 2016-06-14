@@ -41,7 +41,7 @@ class RoomMatching implements Runnable {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
             
-            Player_INTERFACE p = new Player(socket);
+            Player_INTERFACE p = new Player(in, out);
             
             sendMessage("Enter player name !");
             String name = in.readLine();            
@@ -63,7 +63,6 @@ class RoomMatching implements Runnable {
                     roomed = true;
                 } 
             }
-            sendMessage("You joined the room "+room+". There are "+RoomManager.getRoomByID(room).getNbPlayers()+" players in the room.");
             System.out.println(p.getName()+" joined the room "+room+". There are "+RoomManager.getRoomByID(room).getNbPlayers()+" players in the room.");
         } catch (IOException ex) {
             Logger.getLogger(RoomMatching.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,8 +5,6 @@
  */
 package thefuryoftherabbidgrans.server.interfaces;
 
-import java.net.Socket;
-
 
 /**
  *
@@ -31,10 +29,23 @@ public interface Player_INTERFACE{
      * @return the id of the player.
      */
     public int getId();
+
+    /**
+     * inits the player when added to the game.
+     * @param id the id of the player.
+     * @param game the game in which the player is.
+     */
+    public void init(int id, Game_INTERFACE game);
+
+    /**
+     * called when the Client sends a message.
+     * @param message the message.
+     */
+    public void getMessageFromClient(String message);
     
     /**
-     * set's the id of the player.
-     * @param id the new id of the player.
+     * sends a message to the client.
+     * @param message the message.
      */
-    public void setId(int id);    
+    public void sendMessageToClient(String message);
 }

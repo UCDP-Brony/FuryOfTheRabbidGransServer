@@ -30,7 +30,7 @@ public class RoomManager {
         if (ROOMS_IDS.contains(id))
             return false;
         ROOMS_IDS.add(id);
-        GAMES.add(new FuryGransGame());
+        GAMES.add(new FuryGransGame(id));
         return true;
     }
     
