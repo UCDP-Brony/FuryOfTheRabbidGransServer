@@ -71,6 +71,11 @@ public class Player implements Player_INTERFACE {
 
     @Override
     public void endConnection() {
+        try {
+            in.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+        }
         out.close();
         game.removePlayer(id);
     }

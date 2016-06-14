@@ -109,7 +109,5 @@ public class FuryGransGame implements Game_INTERFACE{
     public void removePlayer(int id) {
         players[id] = null;
         nbCurrentPlayers--;
-    }
-
-    
+    }    
 }
