@@ -24,8 +24,8 @@ public class TheFuryOfTheRabbidGrans {
         portNumber = 1500;
         maxConnections = 100;
         try {
-            localAddress = InetAddress.getByName("192.168.1.28");
-            //localAddress = InetAddress.getLocalHost();
+            //localAddress = InetAddress.getByName("192.168.1.28");
+            localAddress = InetAddress.getLocalHost();
             socketServer = new ServerSocket(portNumber, maxConnections, localAddress);
             Thread t = new Thread(new AcceptClient(socketServer));
             t.start();

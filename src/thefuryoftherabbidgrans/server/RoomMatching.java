@@ -46,24 +46,25 @@ class RoomMatching implements Runnable {
             sendMessage("Enter player name !");
             String name = in.readLine();            
             p.initPlayer(name);
+            RoomManager rm = RoomManager.getInstance();
             while (!roomed){
                 sendMessage("Enter room identifier !");
                 room = in.readLine();
-                if(RoomManager.roomExists(room)){
-                    if(RoomManager.canAddToRoom(room)){
-                        RoomManager.addPlayerToRoom(room, p);
+                if(rm.roomExists(room)){
+                    if(rm.canAddToRoom(room)){
+                        rm.addPlayerToRoom(room, p);
                         roomed = true;
                     } else {
-                        sendMessage("Room already full. Please enter another room indentifier.");
+                        sendMessage("Room already full. Please enter another room identifier.");
                         roomed = false;
                     }
                 }else{
-                    RoomManager.addEntry(room);
-                    RoomManager.addPlayerToRoom(room, p);
+                    rm.addEntry(room);
+                    rm.addPlayerToRoom(room, p);
                     roomed = true;
                 } 
             }
-            System.out.println(p.getName()+" joined the room "+room+". There are "+RoomManager.getRoomByID(room).getNbPlayers()+" players in the room.");
+            System.out.println(p.getName()+" joined the room "+room+". There are "+rm.getRoomByID(room).getNbPlayers()+" players in the room.");
         } catch (IOException ex) {
             Logger.getLogger(RoomMatching.class.getName()).log(Level.SEVERE, null, ex);
         }

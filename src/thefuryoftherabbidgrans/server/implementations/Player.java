@@ -6,12 +6,7 @@
 package thefuryoftherabbidgrans.server.implementations;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import thefuryoftherabbidgrans.server.core.PlayerReception;
 import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
@@ -25,7 +20,7 @@ public class Player implements Player_INTERFACE {
     private int id;
     private Game_INTERFACE game;
     private PlayerReception reception;
-    private PrintWriter out;
+    private final PrintWriter out;
     private final BufferedReader in;
 
     

@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this0 license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -49,5 +49,8 @@ public interface Player_INTERFACE{
      */
     public void sendMessageToClient(String message);    
 
+    /**
+     * Ends the connection with the client.
+     */
     public void endConnection();
 }
