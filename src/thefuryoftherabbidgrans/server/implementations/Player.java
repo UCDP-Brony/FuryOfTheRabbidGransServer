@@ -69,4 +69,9 @@ public class Player implements Player_INTERFACE {
         sendMessageToClient("exit");
         game.removePlayer(id);
     }
+
+    @Override
+    public void updateId(int i) {
+        this.id = i;
+    }
 }

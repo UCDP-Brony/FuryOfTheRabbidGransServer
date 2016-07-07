@@ -53,4 +53,6 @@ public interface Player_INTERFACE{
      * Ends the connection with the client.
      */
     public void endConnection();
+
+    public void updateId(int i);
 }

@@ -5,6 +5,7 @@
  */
 package thefuryoftherabbidgrans.server.implementations;
 
+import java.util.ArrayList;
 import thefuryoftherabbidgrans.server.core.Grid;
 import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
@@ -14,22 +15,19 @@ import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
  * @author TheDoctor
  */
 public class FuryGransGame implements Game_INTERFACE{
-    private final Player_INTERFACE[] players;
+    private final ArrayList<Player_INTERFACE> players;
     private final Grid grid;
     private boolean isRunning, isFinished;
-    private int nbTurns, nbCurrentPlayers;
+    private int nbTurns;
     private final String identifier;
 
     public FuryGransGame(String identifier) {
         this.identifier = identifier;
-        this.players = new Player[2];
-        this.players[0] = null;
-        this.players[1] = null;
+        this.players = new ArrayList<>();
         this.grid = null;
         this.isRunning = false;
         this.isFinished = false;
         this.nbTurns = 0;
-        this.nbCurrentPlayers = 0;
     }
     
     
@@ -46,12 +44,12 @@ public class FuryGransGame implements Game_INTERFACE{
             this.nbTurns++;
             switch (this.checkForWinner()){
                 case 1 :
-                    System.out.println(players[0].getName()+" won !");
+                    System.out.println(players.get(0).getName()+" won !");
                     this.isRunning = false;
                     this.isFinished = true;
                     break;
                 case 2 : 
-                    System.out.println(players[1].getName()+" won !");
+                    System.out.println(players.get(1).getName()+" won !");
                     this.isRunning = false;
                     this.isFinished = true;
                     break;
@@ -69,48 +67,50 @@ public class FuryGransGame implements Game_INTERFACE{
 
     @Override
     public boolean canAddPlayer(){
-        return(this.nbCurrentPlayers < 2);
+        return(players.size() < 2);
     }
     
     @Override
     public boolean addPlayer(Player_INTERFACE player) {
-        if (this.players[0] == null) {
-            this.players[0] = player;
+        if (this.players.isEmpty()) {
+            this.players.add(player);
             player.init(0, this);
-        } else if (this.players[1] == null){
-            this.players[1] = player;
+        } else if (this.players.size() == 1){
+            this.players.add(player);
             player.init(1, this);
-            players[0].sendMessageToClient(player.getName()+" joined the room.");
+            players.get(0).sendMessageToClient(player.getName()+" joined the room.");
         } else {
             return false;
         }
-        this.nbCurrentPlayers++;
-        player.sendMessageToClient("You joined the room "+identifier+". There are "+nbCurrentPlayers+" players in the room.");            
+        player.sendMessageToClient("You joined the room "+identifier+". There are "+players.size()+" players in the room.");            
         return true;
     }
 
     @Override
     public int getNbPlayers() {
-        return this.nbCurrentPlayers;
+        return players.size();
     }
 
     @Override
     public void getMessageFromPlayer(int id, String message) {
         if(message.equals("quit")|| message.equals("exit")){
-            System.out.println(players[id].getName()+" disconnected.");
-            if(nbCurrentPlayers > 0){
-                System.out.println((id+1)%2);
-                players[(id+1)%2].sendMessageToClient(players[id].getName()+" disconnected.");                
+            System.out.println(players.get(id).getName()+" disconnected.");
+            String name = players.get(id).getName();            
+            players.get(id).endConnection();
+            if(players.size() > 0){
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).sendMessageToClient(name+" disconnected.");
+                    players.get(i).updateId(i);
+                }
             }
-            players[id].endConnection();
+
         } else {
-            players[id].sendMessageToClient(message);
+            players.get(id).sendMessageToClient(message);
         }
     }
 
     @Override
     public void removePlayer(int id) {
-        players[id] = null;
-        nbCurrentPlayers--;
+        players.remove(id);
     }    
 }
