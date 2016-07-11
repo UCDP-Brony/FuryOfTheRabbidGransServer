@@ -7,10 +7,6 @@ package thefuryoftherabbidgrans.server.core;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 
 /**
@@ -19,7 +15,7 @@ import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
  */
 public class PlayerReception implements Runnable {
     private final Player_INTERFACE player;
-    private BufferedReader in;
+    private final BufferedReader in;
     private boolean connected;
     
     public PlayerReception(Player_INTERFACE p, BufferedReader in){
@@ -36,6 +32,7 @@ public class PlayerReception implements Runnable {
                 player.getMessageFromClient(message);
             } catch (IOException ex) {
                 connected = false;
+                this.player.clientDisconnected();
             }
         }
     }    

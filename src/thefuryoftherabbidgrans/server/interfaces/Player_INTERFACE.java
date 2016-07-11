@@ -52,7 +52,9 @@ public interface Player_INTERFACE{
     /**
      * Ends the connection with the client.
      */
-    public void endConnection();
+    public void serverEndsConnection();
 
+    public void clientDisconnected();
+    
     public void updateId(int i);
 }

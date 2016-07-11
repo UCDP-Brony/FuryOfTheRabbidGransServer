@@ -19,6 +19,9 @@ public class FuryGransGame implements Game_INTERFACE{
     private final Grid grid;
     private boolean isRunning, isFinished;
     private int nbTurns;
+    /**
+     * The room identifier.
+     */
     private final String identifier;
 
     public FuryGransGame(String identifier) {
@@ -78,11 +81,19 @@ public class FuryGransGame implements Game_INTERFACE{
         } else if (this.players.size() == 1){
             this.players.add(player);
             player.init(1, this);
-            players.get(0).sendMessageToClient(player.getName()+" joined the room.");
+            players.get(0).sendMessageToClient("C215_P1");
+            players.get(0).sendMessageToClient(player.getName());
+            players.get(0).sendMessageToClient("C215_P2");
+            players.get(0).sendMessageToClient(this.identifier);
+            players.get(0).sendMessageToClient("C215_P3");
         } else {
             return false;
         }
-        player.sendMessageToClient("You joined the room "+identifier+". There are "+players.size()+" players in the room.");            
+        player.sendMessageToClient("C213_P1");
+        player.sendMessageToClient(this.identifier);
+        player.sendMessageToClient("C213_P2");
+        player.sendMessageToClient(String.valueOf(players.size()));
+        player.sendMessageToClient("C213_P3");
         return true;
     }
 
@@ -96,14 +107,8 @@ public class FuryGransGame implements Game_INTERFACE{
         if(message.equals("quit")|| message.equals("exit")){
             System.out.println(players.get(id).getName()+" disconnected.");
             String name = players.get(id).getName();            
-            players.get(id).endConnection();
-            if(players.size() > 0){
-                for(int i = 0; i < players.size(); i++){
-                    players.get(i).sendMessageToClient(name+" disconnected.");
-                    players.get(i).updateId(i);
-                }
-            }
-
+            players.get(id).serverEndsConnection();
+            this.disconnectedPlayer(name);            
         } else {
             players.get(id).sendMessageToClient(message);
         }
@@ -113,4 +118,24 @@ public class FuryGransGame implements Game_INTERFACE{
     public void removePlayer(int id) {
         players.remove(id);
     }    
+
+    @Override
+    public void disconnectedPlayer(String name) {
+        System.out.println(name+" disconnected.");
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getName().equals(name)){
+                players.remove(i);
+            }
+        }
+        if(players.size() > 0){
+                for(int i = 0; i < players.size(); i++){
+                    players.get(i).sendMessageToClient("C218_P1");
+                    players.get(i).sendMessageToClient(name);
+                    players.get(i).sendMessageToClient("C218_P2");
+                    players.get(i).sendMessageToClient(this.identifier);
+                    players.get(i).sendMessageToClient("C218_P3");
+                    players.get(i).updateId(i);
+                }
+            }
+    }
 }

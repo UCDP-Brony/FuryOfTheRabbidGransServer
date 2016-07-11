@@ -43,19 +43,19 @@ class RoomMatching implements Runnable {
             
             Player_INTERFACE p = new Player(in, out);
             
-            sendMessage("Enter player name !");
+            sendMessage("C210");
             String name = in.readLine();            
             p.initPlayer(name);
             RoomManager rm = RoomManager.getInstance();
             while (!roomed){
-                sendMessage("Enter room identifier !");
+                sendMessage("C212");
                 room = in.readLine();
                 if(rm.roomExists(room)){
                     if(rm.canAddToRoom(room)){
                         rm.addPlayerToRoom(room, p);
                         roomed = true;
                     } else {
-                        sendMessage("Room already full. Please enter another room identifier.");
+                        sendMessage("C413");
                         roomed = false;
                     }
                 }else{

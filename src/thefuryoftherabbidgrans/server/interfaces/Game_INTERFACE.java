@@ -52,4 +52,6 @@ public interface Game_INTERFACE{
      * @param id the id of the player to remove.
      */
     public void removePlayer(int id);
+    
+    public void disconnectedPlayer(String name);
 }

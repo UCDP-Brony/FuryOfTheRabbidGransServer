@@ -65,9 +65,14 @@ public class Player implements Player_INTERFACE {
     }
 
     @Override
-    public void endConnection() {
-        sendMessageToClient("exit");
+    public void serverEndsConnection() {
+        sendMessageToClient("C219");
         game.removePlayer(id);
+    }
+    
+    @Override
+    public void clientDisconnected() {
+        game.disconnectedPlayer(name);
     }
 
     @Override
