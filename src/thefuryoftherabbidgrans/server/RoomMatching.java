@@ -59,9 +59,9 @@ class RoomMatching implements Runnable {
             p.initPlayer(name);
             roomPlayer(p);                        
             
-        } catch (IOException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchAlgorithmException ex) {
+        } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchAlgorithmException ex) {
             sendMessage("C500");
-        } catch (ParserConfigurationException | SAXException ex) {
+        } catch (ParserConfigurationException | SQLException | SAXException ex) {
             Logger.getLogger(RoomMatching.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
