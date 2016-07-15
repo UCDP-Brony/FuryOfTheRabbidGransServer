@@ -62,12 +62,7 @@ public class RoomManager {
             return false;
         }
     }
-
-    public boolean removePlayerFromRoom(String id, Player_INTERFACE p){
-        
-        return true;
-    }
-    
+  
     public boolean roomExists(String room) {
         return (ROOMS_IDS.contains(room));
     }

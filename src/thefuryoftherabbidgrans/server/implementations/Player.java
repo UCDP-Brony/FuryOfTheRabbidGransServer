@@ -7,7 +7,13 @@ package thefuryoftherabbidgrans.server.implementations;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import thefuryoftherabbidgrans.server.core.PlayerReception;
+import thefuryoftherabbidgrans.server.globals.MySQLConnection;
 import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 

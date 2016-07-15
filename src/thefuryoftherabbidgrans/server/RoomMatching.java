@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import thefuryoftherabbidgrans.server.globals.MySQLConnection;
 import thefuryoftherabbidgrans.server.implementations.Player;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 
@@ -71,17 +71,6 @@ class RoomMatching implements Runnable {
         out.flush();
     }
 
-    private String bytesToHex(byte[] b) {
-        char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7',
-                         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-      StringBuilder buf = new StringBuilder();
-      for (int j=0; j<b.length; j++) {
-         buf.append(hexDigit[(b[j] >> 4) & 0x0f]);
-         buf.append(hexDigit[b[j] & 0x0f]);
-      }
-      return buf.toString();
-    }
-
     private String validatePlayer() throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException, SQLException, NoSuchAlgorithmException, ParserConfigurationException, SAXException {
         String name = "";
         String pass = "";
@@ -89,23 +78,17 @@ class RoomMatching implements Runnable {
             sendMessage("C210");
             name = in.readLine();
             sendMessage("C211");
-            pass = in.readLine();
-            File passFile = new File("./src/thefuryoftherabbidgrans/ressources/pass.xml");
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(passFile);
-            doc.getDocumentElement().normalize();
-                                    
-            String password = doc.getElementsByTagName("pass").item(0).getTextContent();
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gransCommunity","joachim",password);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT mot_de_passe FROM gransCommunity.membres WHERE nom_utilisateur='"+name+"';");
-            if(rs.next()){
-                MessageDigest md = MessageDigest.getInstance("SHA1");
-                md.update(pass.getBytes()); 
-                byte[] output = md.digest();
-                if(rs.getString(1).equals(bytesToHex(output))){
-                    this.validPlayer = true;
-                    sendMessage("C211_1");
+            pass = in.readLine();            
+            ResultSet rs = MySQLConnection.getInstance().execQuery("SELECT mot_de_passe, connected FROM gransCommunity.membres WHERE nom_utilisateur='"+name+"';");
+            if(rs.next()){                
+                if(rs.getString(1).equals(pass)){
+                    if(Integer.parseInt(rs.getString(2))==0){                  
+                        MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=1 WHERE nom_utilisateur='"+name+"';");
+                        this.validPlayer = true;                    
+                        sendMessage("C211_1");
+                    } else {
+                        sendMessage("C411_1");
+                    }
                 } else {
                     sendMessage("C411");
                 }

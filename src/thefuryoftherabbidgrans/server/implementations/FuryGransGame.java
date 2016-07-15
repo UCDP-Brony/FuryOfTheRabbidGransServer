@@ -5,8 +5,12 @@
  */
 package thefuryoftherabbidgrans.server.implementations;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import thefuryoftherabbidgrans.server.core.Grid;
+import thefuryoftherabbidgrans.server.globals.MySQLConnection;
 import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 
@@ -121,6 +125,11 @@ public class FuryGransGame implements Game_INTERFACE{
 
     @Override
     public void disconnectedPlayer(String name) {
+        try {
+            MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(FuryGransGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println(name+" disconnected.");
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)){
