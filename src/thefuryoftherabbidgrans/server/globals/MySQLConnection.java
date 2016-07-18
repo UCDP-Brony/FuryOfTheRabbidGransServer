@@ -31,7 +31,7 @@ public class MySQLConnection {
     
     private MySQLConnection(){
         try {
-            File passFile = new File("./src/thefuryoftherabbidgrans/ressources/pass.xml");
+            File passFile = new File("./thefuryoftherabbidgrans/ressources/pass.xml");
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(passFile);
             doc.getDocumentElement().normalize();
                                     
