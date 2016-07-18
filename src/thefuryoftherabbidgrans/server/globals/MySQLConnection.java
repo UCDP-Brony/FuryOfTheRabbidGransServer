@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,6 +56,19 @@ public class MySQLConnection {
     
     public int execUpdate(String u) throws SQLException{
         return this.con.createStatement().executeUpdate(u);
+    }
+
+    public ResultSet getPasswordFromUserName(String name) throws SQLException {
+        PreparedStatement st = this.con.prepareStatement("SELECT mot_de_passe, connected FROM gransCommunity.membres WHERE nom_utilisateur= ? ;");
+        st.setString(1, name);
+        st.execute();            
+        return st.getResultSet();
+    }
+
+    public void updateConnected(String name) throws SQLException {
+        PreparedStatement st = this.con.prepareStatement("UPDATE gransCommunity.membres SET connected=1 WHERE nom_utilisateur= ? ;");
+        st.setString(1, name);
+        st.execute();        
     }
     
 }

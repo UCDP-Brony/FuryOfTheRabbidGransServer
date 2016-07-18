@@ -74,11 +74,11 @@ class RoomMatching implements Runnable {
             name = in.readLine();
             sendMessage("C211");
             pass = in.readLine();            
-            ResultSet rs = MySQLConnection.getInstance().execQuery("SELECT mot_de_passe, connected FROM gransCommunity.membres WHERE nom_utilisateur='"+name+"';");
+            ResultSet rs = MySQLConnection.getInstance().getPasswordFromUserName(name);
             if(rs.next()){                
                 if(rs.getString(1).equals(pass)){
                     if(Integer.parseInt(rs.getString(2))==0){                  
-                        MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=1 WHERE nom_utilisateur='"+name+"';");
+                        MySQLConnection.getInstance().updateConnected(name);
                         this.validPlayer = true;                    
                         sendMessage("C211_1");
                     } else {
