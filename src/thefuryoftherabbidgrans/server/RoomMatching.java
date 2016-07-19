@@ -104,20 +104,23 @@ class RoomMatching implements Runnable {
         RoomManager rm = RoomManager.getInstance();
         while (!roomed){
             sendMessage("C212");
-            room = in.readLine();
-            if(rm.roomExists(room)){
-                if(rm.canAddToRoom(room)){
+            String roomString = in.readLine();
+            if(roomString.length() < 255){
+                room = roomString;
+                if(rm.roomExists(room)){
+                    if(rm.canAddToRoom(room)){
+                        rm.addPlayerToRoom(room, p);
+                        roomed = true;
+                    } else {
+                        sendMessage("C413");
+                        roomed = false;
+                    }
+                }else{
+                    rm.addEntry(room);
                     rm.addPlayerToRoom(room, p);
                     roomed = true;
-                } else {
-                    sendMessage("C413");
-                    roomed = false;
-                }
-            }else{
-                rm.addEntry(room);
-                rm.addPlayerToRoom(room, p);
-                roomed = true;
-            } 
+                } 
+            }
         }
         System.out.println(p.getName()+" joined the room "+room+". There are "+rm.getRoomByID(room).getNbPlayers()+" players in the room.");
     }
