@@ -108,8 +108,7 @@ public class FuryGransGame implements Game_INTERFACE{
 
     @Override
     public void getMessageFromPlayer(int id, String message) {
-        if(message.equals("quit")|| message.equals("exit")){
-            System.out.println(players.get(id).getName()+" disconnected.");
+        if(message.equals("quit")|| message.equals("exit")){            
             String name = players.get(id).getName();            
             players.get(id).serverEndsConnection();
             this.disconnectedPlayer(name);            
