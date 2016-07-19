@@ -55,7 +55,6 @@ class RoomMatching implements Runnable {
             try{
                 roomPlayer(p);
             }   catch(IOException e){
-                sendMessage("C500");
                 try {
                     MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
                 } catch (SQLException ex) {
