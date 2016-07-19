@@ -124,13 +124,7 @@ public class FuryGransGame implements Game_INTERFACE{
     }    
 
     @Override
-    public void disconnectedPlayer(String name) {
-        try {
-            MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
-        } catch (SQLException ex) {
-            Logger.getLogger(FuryGransGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(name+" disconnected.");
+    public void disconnectedPlayer(String name) {        
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)){
                 players.remove(i);

@@ -78,6 +78,12 @@ public class Player implements Player_INTERFACE {
     
     @Override
     public void clientDisconnected() {
+        try {
+            MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
+        } catch (SQLException ex) {
+            Logger.getLogger(FuryGransGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(name+" disconnected.");
         game.disconnectedPlayer(name);
     }
 

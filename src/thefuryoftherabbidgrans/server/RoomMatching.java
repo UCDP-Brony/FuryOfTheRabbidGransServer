@@ -52,7 +52,16 @@ class RoomMatching implements Runnable {
             Player_INTERFACE p = new Player(in, out);
             String name = validatePlayer();            
             p.initPlayer(name);
-            roomPlayer(p);                        
+            try{
+                roomPlayer(p);
+            }   catch(IOException e){
+                sendMessage("C500");
+                try {
+                    MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
+                } catch (SQLException ex) {
+                    Logger.getLogger(RoomMatching.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }                     
             
         } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchAlgorithmException ex) {
             sendMessage("C500");
