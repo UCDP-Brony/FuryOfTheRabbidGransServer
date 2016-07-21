@@ -95,6 +95,8 @@ class RoomMatching implements Runnable {
                 } else {
                     sendMessage("C411");
                 }
+            } else {
+                sendMessage("C411");
             }
         }
         return name;
