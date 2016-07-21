@@ -73,7 +73,8 @@ public class Player implements Player_INTERFACE {
     @Override
     public void serverEndsConnection() {
         sendMessageToClient("C219");
-        game.removePlayer(id);
+        if(game != null)
+            game.removePlayer(id);
     }
     
     @Override
