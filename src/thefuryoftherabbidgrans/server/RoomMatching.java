@@ -104,7 +104,8 @@ class RoomMatching implements Runnable {
     
     private void roomPlayer(Player_INTERFACE p) throws IOException{
         RoomManager rm = RoomManager.getInstance();
-        while (!roomed){
+        boolean exit = false;
+        while (!roomed || exit){
             sendMessage("C212");
             String roomString = in.readLine();
             if(roomString.length() < 255 && !roomString.equals("exit")){
@@ -124,8 +125,10 @@ class RoomMatching implements Runnable {
                 } 
             } else if(roomString.equals("exit")){
                 p.serverEndsConnection();
+                exit = true;
             }
         }
-        System.out.println(p.getName()+" joined the room "+room+". There are "+rm.getRoomByID(room).getNbPlayers()+" players in the room.");
+        if(roomed)
+            System.out.println(p.getName()+" joined the room "+room+". There are "+rm.getRoomByID(room).getNbPlayers()+" players in the room.");
     }
 }
