@@ -107,7 +107,7 @@ class RoomMatching implements Runnable {
         while (!roomed){
             sendMessage("C212");
             String roomString = in.readLine();
-            if(roomString.length() < 255){
+            if(roomString.length() < 255 && !roomString.equals("exit")){
                 room = roomString;
                 if(rm.roomExists(room)){
                     if(rm.canAddToRoom(room)){
@@ -122,6 +122,8 @@ class RoomMatching implements Runnable {
                     rm.addPlayerToRoom(room, p);
                     roomed = true;
                 } 
+            } else if(roomString.equals("exit")){
+                p.serverEndsConnection();
             }
         }
         System.out.println(p.getName()+" joined the room "+room+". There are "+rm.getRoomByID(room).getNbPlayers()+" players in the room.");
