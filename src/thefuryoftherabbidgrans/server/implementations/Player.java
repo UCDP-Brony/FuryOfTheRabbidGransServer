@@ -72,9 +72,14 @@ public class Player implements Player_INTERFACE {
 
     @Override
     public void serverEndsConnection() {
-        sendMessageToClient("C219");
-        if(game != null)
-            game.removePlayer(id);
+        try {
+            MySQLConnection.getInstance().execUpdate("UPDATE gransCommunity.membres SET connected=0 WHERE nom_utilisateur='"+name+"';");
+            sendMessageToClient("C219");
+            if(game != null)
+                game.removePlayer(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
