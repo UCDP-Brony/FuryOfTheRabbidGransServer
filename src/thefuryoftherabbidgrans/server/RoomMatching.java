@@ -105,7 +105,7 @@ class RoomMatching implements Runnable {
     private void roomPlayer(Player_INTERFACE p) throws IOException{
         RoomManager rm = RoomManager.getInstance();
         boolean exit = false;
-        while (!exit && !roomed){
+        while (!(exit || roomed)){
             sendMessage("C212");
             String roomString = in.readLine();
             if(roomString.length() < 255 && !roomString.equals("exit")){
