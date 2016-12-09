@@ -31,13 +31,14 @@ public class MySQLConnection {
     
     private MySQLConnection(){
         try {
-            File passFile = new File("./thefuryoftherabbidgrans/ressources/pass.xml");
+            File passFile = new File("./src/thefuryoftherabbidgrans/ressources/pass.xml");
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(passFile);
             doc.getDocumentElement().normalize();
                                     
             String password = doc.getElementsByTagName("pass").item(0).getTextContent();
+            String login = doc.getElementsByTagName("login").item(0).getTextContent();
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gransCommunity","joachim",password);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gransCommunity",login,password);
         } catch (ParserConfigurationException | SAXException | IOException | ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(MySQLConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

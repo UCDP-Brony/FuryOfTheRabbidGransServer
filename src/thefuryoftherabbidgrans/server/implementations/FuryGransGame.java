@@ -5,12 +5,8 @@
  */
 package thefuryoftherabbidgrans.server.implementations;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import thefuryoftherabbidgrans.server.core.Grid;
-import thefuryoftherabbidgrans.server.globals.MySQLConnection;
+import thefuryoftherabbidgrans.server.core.MapGrid;
 import thefuryoftherabbidgrans.server.interfaces.Game_INTERFACE;
 import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
 
@@ -20,7 +16,7 @@ import thefuryoftherabbidgrans.server.interfaces.Player_INTERFACE;
  */
 public class FuryGransGame implements Game_INTERFACE{
     private final ArrayList<Player_INTERFACE> players;
-    private final Grid grid;
+    private final MapGrid grid;
     private boolean isRunning, isFinished;
     private int nbTurns;
     /**
